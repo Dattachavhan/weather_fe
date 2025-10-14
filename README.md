@@ -3,6 +3,13 @@
 A modern, responsive weather application built with React, Tailwind CSS, and OpenWeatherMap API.
 The app provides current weather, 5-day/3-hour forecast, and city search with suggestions powered by real-time geolocation data.
 
+---
+
+## 🚀 Live Demo
+
+👉 **[View Live App](https://vercel.com/dattachavhans-projects/weatherapp)**  
+_(Deployed using Vercel with automatic CI/CD from GitHub)_
+
 # Features
 
 - Search by City Name — Get real-time city suggestions as you type.
