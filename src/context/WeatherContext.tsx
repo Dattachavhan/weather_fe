@@ -6,13 +6,13 @@ import {
   type ReactNode,
 } from "react";
 import { weatherAPI } from "../api/weather";
-import { useCurrentLocation } from "../custom-hooks/UseCurrentLocation";
 import type {
   ICity,
   ICordinates,
   IForecastData,
   IWeatherData,
 } from "../api/types";
+import { useCurrentLocation } from "../custom-hooks/useCurrentLocation";
 
 interface IWeatherContext {
   weatherData: IWeatherData | null;
@@ -22,6 +22,8 @@ interface IWeatherContext {
   getCitySuggestions: (query: string) => Promise<void>;
   suggestions: ICity[] | [];
   clearSuggestions: () => void;
+  error: string | null;
+  loading: boolean;
 }
 
 const WeatherContext = createContext<IWeatherContext>({
@@ -32,15 +34,18 @@ const WeatherContext = createContext<IWeatherContext>({
   getCitySuggestions: async () => {},
   suggestions: [],
   clearSuggestions: () => {},
+  error: null,
+  loading: false,
 });
 
 export const WeatherProvider = ({ children }: { children: ReactNode }) => {
   const { location: currentLocation } = useCurrentLocation();
-
   const [location, setLocation] = useState<ICordinates | null>(null);
   const [weatherData, setWeatherData] = useState<IWeatherData | null>(null);
   const [foreCastData, setForecastData] = useState<IForecastData | null>(null);
   const [suggestions, setSuggestions] = useState<ICity[] | []>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (currentLocation && !location) {
@@ -50,18 +55,45 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!location) return;
-    (async () => {
-      const wData = await weatherAPI.getCurrentWeatherByCoords({
-        lat: location.lat,
-        lon: location.lon,
-      });
-      setWeatherData(wData);
-      const fData = await weatherAPI.getForecastFiveDaysData({
-        lat: location.lat,
-        lon: location.lon,
-      });
-      setForecastData(fData);
-    })();
+
+    const fetchWeatherData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const [wData, fData] = await Promise.allSettled([
+          weatherAPI.getCurrentWeatherByCoords({
+            lat: location.lat,
+            lon: location.lon,
+          }),
+          weatherAPI.getForecastFiveDaysData({
+            lat: location.lat,
+            lon: location.lon,
+          }),
+        ]);
+
+        if (wData.status === "fulfilled") {
+          setWeatherData(wData.value);
+        } else {
+          setError("Failed to fetch current weather data.");
+        }
+
+        if (fData.status === "fulfilled") {
+          setForecastData(fData.value);
+        } else {
+          setError((prev) =>
+            prev
+              ? `${prev} Forecast data unavailable.`
+              : "Failed to fetch forecast data."
+          );
+        }
+      } catch (err) {
+        setError("Something went wrong while fetching weather data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWeatherData();
   }, [location]);
 
   const getCitySuggestions = async (query: string) => {
@@ -69,8 +101,15 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
       setSuggestions([]);
       return;
     }
-    const data = await weatherAPI.getCitiesByQuery(query);
-    setSuggestions(data);
+    try {
+      setLoading(true);
+      const data = await weatherAPI.getCitiesByQuery(query);
+      setSuggestions(data);
+    } catch (err) {
+      setError("Unable to fetch city suggestions.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const clearSuggestions = () => setSuggestions([]);
@@ -85,6 +124,8 @@ export const WeatherProvider = ({ children }: { children: ReactNode }) => {
         getCitySuggestions,
         suggestions,
         clearSuggestions,
+        error,
+        loading,
       }}
     >
       {children}

@@ -1,73 +1,44 @@
-# React + TypeScript + Vite
+# Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive weather application built with React, Tailwind CSS, and OpenWeatherMap API.
+The app provides current weather, 5-day/3-hour forecast, and city search with suggestions powered by real-time geolocation data.
 
-Currently, two official plugins are available:
+# Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Search by City Name — Get real-time city suggestions as you type.
+- Select from Suggestions — Clicking a city fetches live weather and forecast.
+- Geolocation Support — Detects and shows weather for your current location.
+- Dark/Light Mode — Automatic theme adaptation.
+- Clean UI — Built with Tailwind CSS for simplicity and performance.
+- Error & Loading States — Smooth UX with loading indicators and error handling.
 
-## React Compiler
+# ⚙️ Setup Instructions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Clone the Repository
+   https://github.com/Dattachavhan/weather_fe.git
+2. Install Dependencies
+   npm install
+3. Create .env File and add your OpenWeatherMap API key
+   VITE_WEATHER_API_KEY=your_api_key
+4. Run the App
+   npm run dev
 
-## Expanding the ESLint configuration
+# Technologies Used
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+React (Vite) - UI library
+Tailwind CSS - Styling
+Context API + Hooks - State management
+OpenWeatherMap API - Weather & forecast data
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Testing
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+This application uses Vitest for testing, along with @testing-library/react for component behavior simulation.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Test Status - Currently, only the SearchBox component has unit tests implemented to verify its debouncing logic, input handling, and context interactions.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Running Tests - npm run test
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# 👨‍💻 Author
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Dattatraya Chavhan
+Front-End Developer (React / Angular)

@@ -12,7 +12,7 @@ export const WeatherCard = ({
   currentWeatherData: IWeatherData | null;
 }) => {
   return (
-    <div className="flex flex-row justify-between px-12">
+    <div className="flex flex-col md:flex-row justify-between px-4 sm:px-12">
       <div className=" bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-6 mt-6 transition-all duration-300">
         <div className="flex flex-row items-center gap-2 mb-4">
           <SlLocationPin size={20} />

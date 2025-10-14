@@ -4,7 +4,8 @@ import { WeatherCard } from "../components/WeatherCard";
 import { useWeather } from "../context/WeatherContext";
 
 export const Dashboard = () => {
-  const { weatherData, foreCastData } = useWeather();
+  const { weatherData, foreCastData, error, loading } = useWeather();
+  const isLoading = loading && !weatherData && !foreCastData;
 
   const groupedByDateForeCastData: IForecastListItem[][] = foreCastData
     ? Object.values(
@@ -18,12 +19,21 @@ export const Dashboard = () => {
     : [];
 
   return (
-    <>
-      <WeatherCard currentWeatherData={weatherData} />
-      <Forecast
-        title="5 Day / 3 Hour Forecast"
-        data={groupedByDateForeCastData}
-      />
-    </>
+    <div>
+      {isLoading && (
+        <p className="text-blue-500 text-center">Loading weather data...</p>
+      )}
+
+      {error && <p className="text-red-500 text-center">{error}</p>}
+
+      {weatherData && <WeatherCard currentWeatherData={weatherData} />}
+
+      {foreCastData && (
+        <Forecast
+          title="5 Day / 3 Hour Forecast"
+          data={groupedByDateForeCastData}
+        />
+      )}
+    </div>
   );
 };
