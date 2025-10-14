@@ -1,12 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useWeather } from "../../context/WeatherContext";
 import { SearchBox } from "../SearchBox";
+import { vi } from "vitest";
+import type { Mock } from "vitest";
 
 vi.useFakeTimers();
 
 vi.mock("../../context/WeatherContext");
 
-const mockedUseWeather = useWeather as vi.Mock;
+const mockedUseWeather = useWeather as Mock;
 
 describe("SearchBox Component", () => {
   const mockGetCitySuggestions = vi.fn();
