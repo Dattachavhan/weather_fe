@@ -7,7 +7,7 @@ The app provides current weather, 5-day/3-hour forecast, and city search with su
 
 ## 🚀 Live Demo
 
-👉 **[View Live App](https://vercel.com/dattachavhans-projects/weatherapp)**  
+👉 **[View Live App](https://weatherapp-sigma-ecru-63.vercel.app/)**  
 _(Deployed using Vercel with automatic CI/CD from GitHub)_
 
 # Features
