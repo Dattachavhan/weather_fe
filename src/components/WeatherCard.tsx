@@ -12,8 +12,8 @@ export const WeatherCard = ({
   currentWeatherData: IWeatherData | null;
 }) => {
   return (
-    <div className="flex flex-col md:flex-row justify-between px-4 sm:px-12">
-      <div className=" bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-6 mt-6 transition-all duration-300">
+    <div className="flex flex-col md:flex-row justify-between px-4 sm:px-12 gap-2">
+      <div className="basis-1/3 bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-6 mt-6 transition-all duration-300">
         <div className="flex flex-row items-center gap-2 mb-4">
           <SlLocationPin size={20} />
           <div className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
@@ -55,7 +55,7 @@ export const WeatherCard = ({
             : "--"}
         </div>
       </div>
-      <div className="w-200 bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-6 mt-6 transition-all duration-300">
+      <div className="basis-2/3 bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-6 mt-6 transition-all duration-300">
         <div className="grid grid-cols-3 gap-4 mt-6 text-sm  dark:text-gray-300 text-center">
           <div className="flex flex-col items-center">
             <LuWind size={30} />
